@@ -19,16 +19,15 @@ async function ensureInit() {
 
   const db = getClient();
 
-  await db.executeMultiple(`
-    CREATE TABLE IF NOT EXISTS users (
+  await db.batch([
+    `CREATE TABLE IF NOT EXISTS users (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       name TEXT NOT NULL UNIQUE,
       password TEXT NOT NULL,
       role TEXT NOT NULL DEFAULT 'student' CHECK(role IN ('student','admin')),
       created_at TEXT NOT NULL DEFAULT (datetime('now','localtime'))
-    );
-
-    CREATE TABLE IF NOT EXISTS submissions (
+    )`,
+    `CREATE TABLE IF NOT EXISTS submissions (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       user_id INTEGER NOT NULL,
       name TEXT NOT NULL,
@@ -45,16 +44,14 @@ async function ensureInit() {
       created_at TEXT NOT NULL DEFAULT (datetime('now','localtime')),
       updated_at TEXT NOT NULL DEFAULT (datetime('now','localtime')),
       FOREIGN KEY (user_id) REFERENCES users(id)
-    );
-
-    CREATE TABLE IF NOT EXISTS notices (
+    )`,
+    `CREATE TABLE IF NOT EXISTS notices (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       title TEXT NOT NULL,
       content TEXT NOT NULL,
       created_at TEXT NOT NULL DEFAULT (datetime('now','localtime'))
-    );
-
-    CREATE TABLE IF NOT EXISTS lectures (
+    )`,
+    `CREATE TABLE IF NOT EXISTS lectures (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       title TEXT NOT NULL,
       description TEXT DEFAULT '',
@@ -62,14 +59,12 @@ async function ensureInit() {
       week INTEGER NOT NULL CHECK(week IN (1, 2)),
       sort_order INTEGER NOT NULL DEFAULT 0,
       created_at TEXT NOT NULL DEFAULT (datetime('now','localtime'))
-    );
-  `);
-
-  // 인덱스 생성 (에러 무시 - 이미 존재할 수 있음)
-  try { await db.execute("CREATE UNIQUE INDEX IF NOT EXISTS idx_sub_user_day ON submissions(user_id, day)"); } catch {}
-  try { await db.execute("CREATE INDEX IF NOT EXISTS idx_sub_day ON submissions(day)"); } catch {}
-  try { await db.execute("CREATE INDEX IF NOT EXISTS idx_sub_name ON submissions(name)"); } catch {}
-  try { await db.execute("CREATE INDEX IF NOT EXISTS idx_sub_user ON submissions(user_id)"); } catch {}
+    )`,
+    "CREATE UNIQUE INDEX IF NOT EXISTS idx_sub_user_day ON submissions(user_id, day)",
+    "CREATE INDEX IF NOT EXISTS idx_sub_day ON submissions(day)",
+    "CREATE INDEX IF NOT EXISTS idx_sub_name ON submissions(name)",
+    "CREATE INDEX IF NOT EXISTS idx_sub_user ON submissions(user_id)",
+  ], "write");
 
   // 기본 관리자 계정
   const admin = await db.execute("SELECT id FROM users WHERE role = 'admin'");
