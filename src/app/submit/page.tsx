@@ -29,7 +29,7 @@ const WEEKS: Week[] = [
     title: "릴스 기획 & 촬영",
     date: "3월 11일 ~ 17일",
     tasks: [
-      { day: 1, code: "1-1", label: "릴스 기획", placeholder: "릴스 콘셉트, 타겟, 참고 영상 등을 적어주세요" },
+      { day: 1, code: "1-1", label: "릴스 기획", placeholder: "어떤 상품/서비스를 얼마에 팔 건지, 몇 명한테 팔 건지, 타겟층은 누구인지 기획해주세요" },
       { day: 2, code: "1-2", label: "대본 작성", placeholder: "릴스 대본 내용을 적어주세요 (후킹, 본문, CTA 등)" },
       { day: 3, code: "1-3", label: "릴스 촬영", placeholder: "촬영할 장면, 촬영 장소, 소요 시간 등을 적어주세요" },
       { day: 4, code: "1-4", label: "릴스 촬영", placeholder: "촬영한 장면 설명, 촬영 장소, 소요 시간 등을 적어주세요" },
