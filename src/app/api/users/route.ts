@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import bcrypt from "bcryptjs";
 import getDb from "@/lib/db";
 import { requireAdmin } from "@/lib/auth";
 
@@ -21,6 +22,21 @@ export async function GET(req: NextRequest) {
   }));
 
   return NextResponse.json(result);
+}
+
+// 비밀번호 초기화
+export async function PATCH(req: NextRequest) {
+  const admin = await requireAdmin(req);
+  if (admin instanceof NextResponse) return admin;
+
+  const { id, newPassword } = await req.json();
+  if (!id || !newPassword) return NextResponse.json({ error: "id와 새 비밀번호 필수" }, { status: 400 });
+  if (newPassword.length < 4) return NextResponse.json({ error: "비밀번호는 4자 이상이어야 합니다." }, { status: 400 });
+
+  const db = await getDb();
+  const hash = bcrypt.hashSync(newPassword, 10);
+  await db.execute({ sql: "UPDATE users SET password = ? WHERE id = ?", args: [hash, id] });
+  return NextResponse.json({ message: "비밀번호가 초기화되었습니다." });
 }
 
 export async function DELETE(req: NextRequest) {

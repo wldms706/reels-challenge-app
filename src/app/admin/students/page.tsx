@@ -29,6 +29,19 @@ export default function StudentsPage() {
     setStudents(data);
   }
 
+  async function handleResetPassword(id: number, name: string) {
+    const newPassword = prompt(`${name}님의 새 비밀번호를 입력하세요 (4자 이상):`);
+    if (!newPassword) return;
+    if (newPassword.length < 4) { alert("비밀번호는 4자 이상이어야 합니다."); return; }
+    const res = await apiJson("/api/users", { method: "PATCH", body: JSON.stringify({ id, newPassword }) });
+    const data = await res.json();
+    if (res.ok) {
+      alert(`${name}님의 비밀번호가 초기화되었습니다.\n새 비밀번호: ${newPassword}`);
+    } else {
+      alert(data.error || "오류가 발생했습니다.");
+    }
+  }
+
   async function handleDelete(id: number, name: string) {
     if (!confirm(`${name}님을 삭제하시겠습니까? 제출한 과제도 모두 삭제됩니다.`)) return;
     await apiJson("/api/users", { method: "DELETE", body: JSON.stringify({ id }) });
@@ -63,9 +76,10 @@ export default function StudentsPage() {
             {studentList.map((s) => (
               <tr key={s.id} className="border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700">
                 <td className="px-4 py-3 font-medium">{s.name}</td>
-                <td className="px-4 py-3 text-gray-500 dark:text-gray-400">{s.submission_count}/14</td>
+                <td className="px-4 py-3 text-gray-500 dark:text-gray-400">{s.submission_count}/10</td>
                 <td className="px-4 py-3 text-gray-500 dark:text-gray-400 text-xs">{s.created_at}</td>
-                <td className="px-4 py-3">
+                <td className="px-4 py-3 space-x-2">
+                  <button onClick={() => handleResetPassword(s.id, s.name)} className="text-blue-500 hover:underline text-xs">비밀번호 초기화</button>
                   <button onClick={() => handleDelete(s.id, s.name)} className="text-red-500 hover:underline text-xs">삭제</button>
                 </td>
               </tr>
