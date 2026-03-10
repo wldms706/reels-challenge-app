@@ -25,7 +25,7 @@ export default function RegisterPage() {
     if (!res.ok) { setError(data.error); return; }
 
     localStorage.setItem("user", JSON.stringify(data));
-    router.push("/submit");
+    window.location.href = "/submit";
   }
 
   return (

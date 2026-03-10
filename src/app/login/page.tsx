@@ -24,7 +24,7 @@ export default function LoginPage() {
     if (!res.ok) { setError(data.error); return; }
 
     localStorage.setItem("user", JSON.stringify(data));
-    router.push(data.role === "admin" ? "/admin" : "/submit");
+    window.location.href = data.role === "admin" ? "/admin" : "/submit";
   }
 
   return (
