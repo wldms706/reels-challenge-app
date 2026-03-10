@@ -76,6 +76,7 @@ export default function LecturesPage() {
                       className="absolute inset-0 w-full h-full"
                       allow="autoplay; encrypted-media"
                       allowFullScreen
+                      sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
                     />
                   </div>
                 )}
