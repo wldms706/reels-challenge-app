@@ -332,21 +332,24 @@ export default function AdminPage() {
             <div className="space-y-3 mb-6">
               <div>
                 <label className="block text-sm font-medium text-green-700 dark:text-green-400 mb-1">1) 잘한 점</label>
-                <input type="text" value={feedbackGood} onChange={(e) => setFeedbackGood(e.target.value)}
-                  placeholder="잘한 점 1개"
-                  className="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-700 rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-green-500" />
+                <textarea value={feedbackGood} onChange={(e) => setFeedbackGood(e.target.value)}
+                  placeholder="잘한 점을 적어주세요"
+                  rows={3}
+                  className="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-700 rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-green-500 resize-y" />
               </div>
               <div>
                 <label className="block text-sm font-medium text-orange-700 dark:text-orange-400 mb-1">2) 수정할 점</label>
-                <input type="text" value={feedbackFix} onChange={(e) => setFeedbackFix(e.target.value)}
-                  placeholder="가장 큰 수정 1개"
-                  className="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-700 rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-orange-500" />
+                <textarea value={feedbackFix} onChange={(e) => setFeedbackFix(e.target.value)}
+                  placeholder="수정할 점을 적어주세요"
+                  rows={3}
+                  className="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-700 rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-orange-500 resize-y" />
               </div>
               <div>
                 <label className="block text-sm font-medium text-blue-700 dark:text-blue-400 mb-1">3) 다음 행동</label>
-                <input type="text" value={feedbackNext} onChange={(e) => setFeedbackNext(e.target.value)}
-                  placeholder="이것만 하고 재제출"
-                  className="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-700 rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-blue-500" />
+                <textarea value={feedbackNext} onChange={(e) => setFeedbackNext(e.target.value)}
+                  placeholder="다음에 할 행동을 적어주세요"
+                  rows={3}
+                  className="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-700 rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-blue-500 resize-y" />
               </div>
             </div>
 
