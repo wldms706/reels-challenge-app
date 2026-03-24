@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { apiFetch } from "@/lib/api";
 
-const DEADLINE = new Date("2025-03-25T23:59:00+09:00").getTime();
+const DEADLINE = new Date("2026-03-25T23:59:00+09:00").getTime();
 
 function useCountdown() {
   const [now, setNow] = useState(Date.now());
